@@ -10,7 +10,7 @@ const projects = [
   },
   {
     title: 'Automata Trading',
-    description: 'Real-Time, Collaborative Workflow Automation for Trading',
+    description: 'Real-Time, Collaborative, Workflow Automation for Trading',
     image: '/assets/automata-trading-pic.png',
     link: 'https://automata-trading.vercel.app/'
   },
@@ -19,6 +19,12 @@ const projects = [
     description: 'OpenGL, GLSL, GLM, GLFW, GLAD, 3d graphics project',
     image: '/assets/opengl-pic.png',
     link: 'https://github.com/ericlivshiz/OpenGL1.1'
+  },
+  {
+    title: 'Verlet Solver',
+    description: 'Verlet Physics Solver using C++ and SFML',
+    image: '/assets/verlet-solver-pic.png',
+    link: 'https://github.com/ericlivshiz/VerletSolver'
   }
 ]
 
