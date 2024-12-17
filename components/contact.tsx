@@ -10,16 +10,45 @@ export default function Contact() {
     message: ''
   })
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null,
+    message: string
+  }>({ type: null, message: '' })
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically send the form data to a server
-    console.log('Form submitted:', formData)
-    // Reset form after submission
-    setFormData({ name: '', email: '', message: '' })
+    setIsSubmitting(true)
+    setSubmitStatus({ type: null, message: '' })
+
+    try {
+      const response = await fetch('/api/submit-contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) throw new Error('Failed to submit form')
+
+      setFormData({ name: '', email: '', message: '' })
+      setSubmitStatus({
+        type: 'success',
+        message: 'Thank you for your message! We\'ll get back to you soon.'
+      })
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Failed to submit form. Please try again later.'
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -36,7 +65,7 @@ export default function Contact() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 text-slate-900 bg-slate-100 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full px-3 py-2 text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-md focus:outline-none focus:ring-4 focus:ring-indigo-300 border border-transparent transition-all duration-300"
             />
           </div>
           <div>
@@ -48,7 +77,7 @@ export default function Contact() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 text-slate-900 bg-slate-100 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full px-3 py-2 text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-md focus:outline-none focus:ring-4 focus:ring-indigo-300 border border-transparent transition-all duration-300"
             />
           </div>
           <div>
@@ -60,17 +89,25 @@ export default function Contact() {
               onChange={handleChange}
               required
               rows={4}
-              className="w-full px-3 py-2 text-slate-900 bg-slate-100 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full px-3 py-2 text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-md focus:outline-none focus:ring-4 focus:ring-indigo-300 border border-transparent transition-all duration-300"
             ></textarea>
           </div>
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-indigo-400 hover:bg-indigo-500 text-white font-semibold rounded-md transition-colors flex items-center justify-center"
+            disabled={isSubmitting}
+            className="w-full py-3 px-4 bg-indigo-400 hover:bg-indigo-500 text-white font-semibold rounded-md transition-colors flex items-center justify-center disabled:opacity-50"
           >
-            Send Message
-            <Send size={18} className="ml-2" />
+            {isSubmitting ? 'Sending...' : 'Send Message'}
+            {!isSubmitting && <Send size={18} className="ml-2" />}
           </button>
         </form>
+        {submitStatus.type && (
+          <div className={`mt-4 p-4 rounded-md ${
+            submitStatus.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+          }`}>
+            {submitStatus.message}
+          </div>
+        )}
       </div>
     </section>
   )
