@@ -16,15 +16,21 @@ const projects = [
   },
   {
     title: '3D Graphics Programming',
-    description: 'OpenGL, GLSL, GLM, GLFW, GLAD, 3d graphics project',
+    description: 'OpenGL, GLSL, GLM, GLFW, GLAD, 3D graphics project',
     image: '/assets/opengl-pic.png',
     link: 'https://github.com/ericlivshiz/OpenGL1.1'
   },
   {
     title: 'Verlet Solver',
-    description: 'Verlet Physics Solver using C++ and SFML',
+    description: 'Real-TimeVerlet Physics Solver using C++ and SFML',
     image: '/assets/verlet-solver-pic.png',
     link: 'https://github.com/ericlivshiz/VerletSolver'
+  },
+  {
+    title: 'Find Your Homie',
+    description: 'Housing, Subleasing, and Roommate Matching Platform',
+    image: '/assets/find-your-homie-pic.png',
+    link: 'https://find-your-homie.vercel.app/'
   }
 ]
 
